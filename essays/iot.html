@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Development of IoT in Daily Life | Voices</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        :root {
+            --paper-bg: #FAFAF9;
+            --ink: #1F2937;
+            --accent-soft: rgba(220, 38, 38, 0.1);
+        }
+
+        body {
+            background-color: var(--paper-bg);
+            color: var(--ink);
+        }
+
+        /* Reading Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* Nav Override */
+        .back-nav {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 50px;
+            color: var(--ink);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+            background: var(--white);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            color: var(--accent);
+        }
+
+        /* Main Container */
+        .essay-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 120px 20px 80px;
+        }
+
+        /* Header Section */
+        .essay-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .essay-category {
+            display: inline-block;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            padding: 6px 16px;
+            background: var(--accent-soft);
+            border-radius: 20px;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .essay-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        /* Hero Image Container */
+        .hero-image-wrapper {
+            position: relative;
+            margin-bottom: 40px;
+            border-radius: 24px;
+            box-shadow:
+                0 20px 40px -10px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .hero-image-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 30px 60px -15px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: contrast(1.05) saturate(1.05);
+        }
+
+        /* Author Meta */
+        .essay-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            margin-bottom: 60px;
+        }
+
+        .meta-avatar-wrapper {
+            position: relative;
+        }
+
+        .meta-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .meta-verified {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--accent);
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .meta-verified::after {
+            content: '✓';
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .meta-name {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .meta-role {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .meta-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Content Typography */
+        .essay-content {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #374151;
+            text-align: justify;
+        }
+
+        .essay-content p {
+            margin-bottom: 32px;
+        }
+
+        /* Drop Cap */
+        .essay-content p:first-of-type::first-letter {
+            float: left;
+            font-family: var(--font-heading);
+            font-size: 6.5rem;
+            line-height: 0.8;
+            padding-right: 16px;
+            padding-top: 4px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .pull-quote {
+            margin: 60px -40px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.03), rgba(255, 255, 255, 0));
+            border-left: 4px solid var(--accent);
+            border-radius: 0 16px 16px 0;
+            position: relative;
+        }
+
+        .pull-quote::before {
+            content: '“';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-family: var(--font-heading);
+            font-size: 8rem;
+            color: rgba(220, 38, 38, 0.1);
+            line-height: 1;
+        }
+
+        .pull-quote p {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-style: italic;
+            color: #111;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .term-tooltip {
+            position: relative;
+            cursor: pointer;
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-underline-offset: 4px;
+            transition: all 0.2s;
+        }
+
+        .term-tooltip:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+            border-radius: 4px;
+        }
+
+        .term-tooltip::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px) scale(0.8);
+            background: #1F2937;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            width: 200px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            font-weight: 400;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .term-tooltip:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px) scale(1);
+        }
+
+        .highlight-hover {
+            display: inline;
+            background-image: linear-gradient(120deg, rgba(220, 38, 38, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 0%;
+            background-position: 0 88%;
+            transition: background-size 0.25s ease-in;
+            cursor: default;
+        }
+
+        .highlight-hover:hover {
+            background-size: 100% 100%;
+        }
+
+        /* Footer Mini */
+        .essay-footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .essay-title {
+                font-size: 2.2rem;
+            }
+
+            .essay-container {
+                padding: 100px 20px 40px;
+            }
+
+            .pull-quote {
+                margin: 40px 0;
+                padding: 30px 20px;
+            }
+
+            .pull-quote p {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
+
+    <!-- Back Navigation -->
+    <nav class="back-nav">
+        <a href="../index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5" />
+                <path d="M12 19L5 12L12 5" />
+            </svg>
+            <span>Home</span>
+        </a>
+    </nav>
+
+    <div class="essay-container">
+
+        <!-- Header -->
+        <header class="essay-header">
+            <span class="essay-category">Future Tech</span>
+            <h1 class="essay-title">The Development of the Internet of Things (IoT) in Daily Life</h1>
+        </header>
+
+        <!-- Hero Image -->
+        <figure class="hero-image-wrapper">
+            <img src="../FOTO/essay-iot-hero.png" alt="IoT Illustration">
+        </figure>
+
+        <!-- Author Meta -->
+        <div class="essay-meta">
+            <div class="meta-avatar-wrapper">
+                <img src="../FOTO/Lidya.png" alt="Lidya Ammalia Suharto" class="meta-avatar">
+                <div class="meta-verified"></div>
+            </div>
+            <div class="meta-info">
+                <span class="meta-name">Lidya Ammalia Suharto</span>
+                <span class="meta-role">By Lidya Ammalia Suharto</span>
+                <span class="meta-date">January 6, 2025</span>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <article class="essay-content">
+            <p class="reveal-text">In this modern era, we live amidst rapid technological developments. One of the most
+                talked about and used technologies is the <span class="term-tooltip"
+                    data-tip="Network of physical objects embedded with sensors and connectivity">Internet of Things
+                    (IoT)</span>. Simply put, IoT is a technology that allows various objects around us (such as lights,
+                air conditioner(AC), watches, cars, cameras, and even kitchen appliances) to connect to the internet and
+                communicate with each other. The presence of Internet of Things (IoT) has made many things that once
+                seemed complicated much more practical. We can turn on lights remotely, monitor our health with a
+                smartwatch, and use smart apps that help with our daily tasks. This technology is developing very
+                rapidly and has entered various places from home, schools, offices, and even public facilities.</p>
+
+            <p class="reveal-text">However, this rapid development has also given rise to new debates especially
+                regarding data security and user privacy. Some people find it very helpful but others worry that their
+                personal data could be stolen or misused. Nevertheless, one thing is certain that IoT has had a
+                significant impact on human life. Therefore, it can be said that <span class="highlight-hover">the
+                    development of IoT has significantly influenced daily life by increasing convenience, efficiency,
+                    and connectivity</span>, although there are still risks that need to be considered.</p>
+
+            <div class="pull-quote reveal-text">
+                <p>“IoT not only makes tasks easier but also boosts productivity, saves resources, and supports better
+                    decision-making.”</p>
+            </div>
+
+            <p class="reveal-text">The most obvious benefit of IoT is the increased convenience in carrying out various
+                daily activities. Many things that previously had to be done manually can now be done more quickly and
+                even automatically. For example, the use of <span class="term-tooltip"
+                    data-tip="Home automation system">smart home systems</span> allows users to control lights, air
+                conditioning, CCTV, or even doors using only a smartphone. With IoT, someone can turn on the air
+                conditioning before arriving home, ensure the door is locked remotely, or set the lights to turn on
+                automatically at a specific time. Household appliances are also becoming smarter, such as robot vacuums
+                that can clean the house themselves or smart refrigerators that notify us when food is running low.</p>
+
+            <p class="reveal-text">Besides offering convenience, the Internet of Things also plays a major role in
+                increasing efficiency and productivity in various aspects of life. In the workplace, IoT helps companies
+                manage operations more effectively through devices and system that can collect data automatically. For
+                example, smart sensors in factories can detect machine performance in real time, preventing breakdown
+                before they occur and ensuring that production runs smoothly. This not only saves time but also reduces
+                maintenance cost.</p>
+
+            <p class="reveal-text">Even though the Internet of Things brings many benefits, its rapid development also
+                brings several challenges and risks that must be considered carefully. One of the biggest concerns is
+                <span class="term-tooltip" data-tip="Protection of digital data from unauthorized access">data
+                    security</span>. Because IoT devices continuously collect and share personal information such as
+                location, daily habits, health data or home security details, they become attractive targets for
+                cybercriminals. If the data is not protected properly, hackers can access sensitive information, break
+                into networks or even control connected devices. Privacy is another major issue. Many users do not
+                realize how much of their personal data is stored and shared by IoT devices.</p>
+
+            <p class="reveal-text">The development of the Internet of Things has brought major transformations to daily
+                life by enhancing convenience, improving efficiency, and strengthening connectivity in ways that were
+                unimaginable in the past. Through smart homes, wearable devices, workplace automation, and more advanced
+                public services, IoT has made everyday tasks faster, easier, and more practical. However, alongside
+                these benefits, significant challenges also arise, especially around data security, privacy protection,
+                and the risk of becoming overly dependent on technology. With the right precautions and continuous
+                improvement in security systems, IoT can create a future where people live more safely, more
+                comfortably, and more efficiently.</p>
+        </article>
+
+        <div class="essay-footer">
+            &copy; 2025 Voices. Developed by Sulthonika Mahfudz Al Mujahidin.
+        </div>
+
+    </div>
+
+    <!-- Script for Progress Bar & Scroll Reveal -->
+    <script>
+        window.onscroll = function () { myFunction() };
+
+        function myFunction() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("myBar").style.width = scrolled + "%";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+
+</html>

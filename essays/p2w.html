@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Impact of Pay-to-Win Game System on Game Balance | Voices</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        :root {
+            --paper-bg: #FAFAF9;
+            --ink: #1F2937;
+            --accent-soft: rgba(220, 38, 38, 0.1);
+        }
+
+        body {
+            background-color: var(--paper-bg);
+            color: var(--ink);
+        }
+
+        /* Reading Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* Nav Override */
+        .back-nav {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 50px;
+            color: var(--ink);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .btn-back:hover {
+            transform: translateX(-5px);
+            background: var(--white);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            color: var(--accent);
+        }
+
+        /* Main Container */
+        .essay-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 120px 20px 80px;
+        }
+
+        /* Header Section */
+        .essay-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .essay-category {
+            display: inline-block;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            padding: 6px 16px;
+            background: var(--accent-soft);
+            border-radius: 20px;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .essay-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        /* Hero Image Container */
+        .hero-image-wrapper {
+            position: relative;
+            margin-bottom: 40px;
+            border-radius: 24px;
+            box-shadow:
+                0 20px 40px -10px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .hero-image-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 30px 60px -15px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: contrast(1.05) saturate(1.05);
+        }
+
+        /* Author Meta */
+        .essay-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            margin-bottom: 60px;
+        }
+
+        .meta-avatar-wrapper {
+            position: relative;
+        }
+
+        .meta-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .meta-verified {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 18px;
+            height: 18px;
+            background: var(--accent);
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .meta-verified::after {
+            content: '✓';
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .meta-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .meta-name {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .meta-role {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .meta-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Content Typography */
+        .essay-content {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #374151;
+            text-align: justify;
+        }
+
+        .essay-content p {
+            margin-bottom: 32px;
+        }
+
+        /* Drop Cap */
+        .essay-content p:first-of-type::first-letter {
+            float: left;
+            font-family: var(--font-heading);
+            font-size: 6.5rem;
+            line-height: 0.8;
+            padding-right: 16px;
+            padding-top: 4px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .pull-quote {
+            margin: 60px -40px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.03), rgba(255, 255, 255, 0));
+            border-left: 4px solid var(--accent);
+            border-radius: 0 16px 16px 0;
+            position: relative;
+        }
+
+        .pull-quote::before {
+            content: '“';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-family: var(--font-heading);
+            font-size: 8rem;
+            color: rgba(220, 38, 38, 0.1);
+            line-height: 1;
+        }
+
+        .pull-quote p {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-style: italic;
+            color: #111;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .term-tooltip {
+            position: relative;
+            cursor: pointer;
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-underline-offset: 4px;
+            transition: all 0.2s;
+        }
+
+        .term-tooltip:hover {
+            background-color: rgba(220, 38, 38, 0.1);
+            border-radius: 4px;
+        }
+
+        .term-tooltip::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px) scale(0.8);
+            background: #1F2937;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            width: 200px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            font-weight: 400;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .term-tooltip:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px) scale(1);
+        }
+
+        .highlight-hover {
+            display: inline;
+            background-image: linear-gradient(120deg, rgba(220, 38, 38, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 0%;
+            background-position: 0 88%;
+            transition: background-size 0.25s ease-in;
+            cursor: default;
+        }
+
+        .highlight-hover:hover {
+            background-size: 100% 100%;
+        }
+
+        .references-box {
+            margin-top: 80px;
+            padding: 40px;
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .references-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        .references-list {
+            list-style: none;
+            padding: 0;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .references-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .references-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .essay-footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .essay-title {
+                font-size: 2.2rem;
+            }
+
+            .essay-container {
+                padding: 100px 20px 40px;
+            }
+
+            .pull-quote {
+                margin: 40px 0;
+                padding: 30px 20px;
+            }
+
+            .pull-quote p {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
+
+    <!-- Back Navigation -->
+    <nav class="back-nav">
+        <a href="../index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5" />
+                <path d="M12 19L5 12L12 5" />
+            </svg>
+            <span>Home</span>
+        </a>
+    </nav>
+
+    <div class="essay-container">
+
+        <!-- Header -->
+        <header class="essay-header">
+            <span class="essay-category">Gaming Culture</span>
+            <h1 class="essay-title">The Impact of Pay-to-Win Game System on Game Balance</h1>
+        </header>
+
+        <!-- Hero Image -->
+        <figure class="hero-image-wrapper">
+            <img src="../FOTO/essay-p2w-hero.png" alt="Pay-to-Win Illustration">
+        </figure>
+
+        <!-- Author Meta -->
+        <div class="essay-meta">
+            <div class="meta-avatar-wrapper">
+                <img src="../FOTO/dzaki.png" alt="Ahmad Dzaki Zayyan Sugianto" class="meta-avatar">
+                <div class="meta-verified"></div>
+            </div>
+            <div class="meta-info">
+                <span class="meta-name">Ahmad Dzaki Zayyan Sugianto</span>
+                <span class="meta-role">By Ahmad Dzaki Zayyan Sugianto</span>
+                <span class="meta-date">January 6, 2025</span>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <article class="essay-content">
+            <p class="reveal-text">Video games have grown into an important part of digital culture, and today they
+                serve not only as entertainment but also as subjects of academic study. One interesting aspect to
+                examine is the <span class="term-tooltip"
+                    data-tip="Spending real money for unfair in-game advantages">Pay-to-Win (P2W)</span> system. The
+                Pay-to-Win (P2W) system is a monetization mechanism in video games where players can use real money to
+                gain competitive advantages, such as stronger weapons, faster access to content, or ability upgrades
+                that directly influence game outcomes (Hamari et al., 2017). Some people argue that this system is
+                beneficial because it provides revenue for developers and helps new players progress more quickly
+                without spending a long time farming (Lehdonvirta, 2009). However, others believe that this system harms
+                fairness and negatively affects the overall gameplay experience. In this context, I tend to agree with
+                those who oppose the P2W system, because the negative impact on game balance is more significant
+                compared to the benefits it offers from a player’s perspective. Although the Pay-to-Win system provides
+                financial stability for developers and offers convenience for beginners who can afford to pay, its
+                widespread use also carries the risk of creating a game environment that lacks fairness. This shows that
+                financial profit alone is not enough without proper game design that maintains balance and ensures fair
+                competition.</p>
+
+            <p class="reveal-text">Overall, the P2W system is not entirely negative, as it offers several benefits for
+                both developers and certain groups of players. For developers, P2W serves as a stable source of revenue,
+                especially for free-to-play games that do not generate profit from initial sales. Through in-game
+                transactions, developers can cover operational costs such as server maintenance, bug fixes, security
+                improvements, and customer support. This revenue also enables them to release regular updates, seasonal
+                events, and new content, keeping the game engaging and competitive. From the players’ perspective, P2W
+                provides convenience for beginners to progress more quickly without spending excessive time <span
+                    class="term-tooltip" data-tip="Spending time doing repetitive tasks to progress">grinding</span>.
+                The system also offers flexibility by allowing players to customize their playstyle through character
+                upgrades or faster access to exclusive content. Some players even feel personal satisfaction from making
+                such purchases, as it allows them to shape their gameplay experience according to their preferences.
+                Therefore, despite frequent criticism, P2W continues to hold appeal and remains implemented in many
+                popular games today.</p>
+
+            <div class="pull-quote reveal-text">
+                <p>“Financial profit alone is not enough without proper game design that maintains balance and ensures
+                    fair competition.”</p>
+            </div>
+
+            <p class="reveal-text">While the Pay-to-Win system offers some benefits, it also brings various problems and
+                risks that can negatively affect the overall gameplay experience. One of the most obvious impacts is the
+                <span class="highlight-hover">creation of unfair competition between players.</span> In P2W games,
+                paying players usually have stronger weapons or certain advantages that make them significantly more
+                powerful than those who do not spend money. As a result, non-paying players often feel frustrated and
+                left behind, even when they actually possess good skills. This situation frequently leads many players
+                to stop playing, which eventually decreases the number of active players and can damage the game's
+                reputation. Furthermore, player skill becomes less meaningful because victories are often determined by
+                how much money a player spends rather than by effort or strategy (Zendle et al., 2020).</p>
+
+            <p class="reveal-text">To understand how players actually perceive this unfairness, I referred to an article
+                titled “Pay to Win or Pay to Cheat: How Players of Competitive Online Games Perceive Fairness of In-Game
+                Purchases.” The study, conducted by Guo, Wu, Nower, and Wohn, analyzed thousands of player posts taken
+                from public Reddit data, where many players actively share their experiences and opinions about
+                competitive games. Their findings show that 29.47% of the posts express that players still feel the
+                gameplay is fair or balanced even when paid features are involved. However, a nearly identical
+                percentage 29.98% reflects dissatisfaction with the fairness of the game, especially when in-game
+                purchases influence match outcomes. In total, the study examined 2,685 posts and comments, which served
+                as the main dataset for further analysis (Freeman et al., 2022). These results reinforce the idea that
+                while some players may not mind the P2W system, many others feel that it disrupts balance and reduces
+                the overall enjoyment of playing.</p>
+
+            <p class="reveal-text">Although the P2W system has various negative aspects that can potentially damage the
+                gameplay experience, this does not mean that the system cannot be improved. Instead, this situation
+                emphasizes the importance of efforts by game developers to create balance so that the game remains fair,
+                competitive, and enjoyable for all players, both paying and non-paying. To achieve this goal, the
+                implementation of paid features must be carefully designed so they do not provide excessive advantages
+                that could disrupt competition within the game. Developers need to ensure that all players still have a
+                reasonable opportunity to compete without facing extreme power gaps (Hamari et al., 2017). In addition,
+                developers must actively listen to feedback from the player community to understand how the P2W system
+                affects their gameplay experience. By taking this feedback into account, developers can make the
+                necessary adjustments and updates to maintain overall game balance.</p>
+
+            <p class="reveal-text">In conclusion, the Pay-to-Win system has both advantages and disadvantages, but its
+                impact on fairness and competitive balance remains a major concern. Although monetization supports
+                developers and provides convenience for new players, it also risks creating a game environment where
+                money has more influence than player skill. Therefore, developers must prioritize balanced game design
+                to maintain fairness and preserve player satisfaction.</p>
+        </article>
+
+        <!-- References -->
+        <div class="references-box">
+            <h3 class="references-title">References</h3>
+            <ul class="references-list">
+                <li>Freeman, G., Wu, K., Nower, N., & Wohn, D. Y. (2022). Pay to Win or Pay to Cheat: How Players of
+                    Competitive Online Games Perceive Fairness of In-Game Purchases. Proceedings of the ACM on
+                    Human-Computer Interaction, 6(CHI PLAY), 1–24.</li>
+                <li>Hamari, J., Alha, K., Järvelä, S., Kivikangas, J. M., Koivisto, J., & Paavilainen, J. (2017). Why do
+                    players buy in-game content? An empirical study on concrete purchase motivations. Computers in Human
+                    Behavior, 68, 538–546.</li>
+                <li>Lehdonvirta, V. (2009). Virtual item sales as a revenue model: Identifying attributes that drive
+                    purchase decisions. Electronic Commerce Research, 9(1–2), 97–113.</li>
+                <li>Zendle, D., Meyer, R., & Ballou, N. (2020). The changing face of desktop video game monetisation: An
+                    exploration of exposure to loot boxes, pay to win, and cosmetic microtransactions in the most-played
+                    Steam games of 2010-2019. PLOS ONE, 15(5), e0232780.</li>
+            </ul>
+        </div>
+
+        <div class="essay-footer">
+            &copy; 2025 Voices. Developed by Sulthonika Mahfudz Al Mujahidin.
+        </div>
+
+    </div>
+
+    <!-- Script for Progress Bar & Scroll Reveal -->
+    <script>
+        window.onscroll = function () { myFunction() };
+
+        function myFunction() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("myBar").style.width = scrolled + "%";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+
+</html>
