@@ -494,7 +494,8 @@
                 left behind, even when they actually possess good skills. This situation frequently leads many players
                 to stop playing, which eventually decreases the number of active players and can damage the game's
                 reputation. Furthermore, player skill becomes less meaningful because victories are often determined by
-                how much money a player spends rather than by effort or strategy (Zendle et al., 2020).</p>
+                how much money a player spends rather than by effort or strategy (Zendle et al., 2020).
+            </p>
 
             <p class="reveal-text">To understand how players actually perceive this unfairness, I referred to an article
                 titled “Pay to Win or Pay to Cheat: How Players of Competitive Online Games Perceive Fairness of In-Game
@@ -573,6 +574,27 @@
             });
 
             document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
+        });
+    </script>
+    <script>
+        // Back Button Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const user = urlParams.get('user');
+            const from = urlParams.get('from');
+
+            const backBtn = document.querySelector('.btn-back');
+            if (backBtn) {
+                if (user) {
+                    backBtn.href = `../profiles/${user}.html`;
+                    const span = backBtn.querySelector('span');
+                    if (span) span.textContent = 'Back to Portfolio';
+                } else if (from === 'profile') {
+                    backBtn.href = '../profile.html';
+                    const span = backBtn.querySelector('span');
+                    if (span) span.textContent = 'Back to Portfolio';
+                }
+            }
         });
     </script>
 </body>

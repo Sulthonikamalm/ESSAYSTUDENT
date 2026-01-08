@@ -569,6 +569,27 @@
             document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
         });
     </script>
+    <script>
+        // Back Button Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const user = urlParams.get('user');
+            const from = urlParams.get('from');
+
+            const backBtn = document.querySelector('.btn-back');
+            if (backBtn) {
+                if (user) {
+                    backBtn.href = `../profiles/${user}.html`;
+                    const span = backBtn.querySelector('span');
+                    if (span) span.textContent = 'Back to Portfolio';
+                } else if (from === 'profile') {
+                    backBtn.href = '../profile.html';
+                    const span = backBtn.querySelector('span');
+                    if (span) span.textContent = 'Back to Portfolio';
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

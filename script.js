@@ -163,4 +163,35 @@ document.addEventListener('DOMContentLoaded', () => {
         lecturerObserver.observe(lecturerSection);
     }
     
+    // ═══════════════════════════════════════════════════════════════════════
+    // MOBILE SCROLL INTERACTION FOR TEAM CARDS
+    // ═══════════════════════════════════════════════════════════════════════
+
+    // Only activate on smaller screens where hover isn't primary
+    if (window.innerWidth <= 768) {
+        const teamCards = document.querySelectorAll('.team-card');
+
+        // Logic: Trigger when the element is in the "center" of the screen
+        const teamObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add hover class when in the sweet spot
+                    entry.target.classList.add('mobile-hover');
+                } else {
+                    // Remove when leaving the sweet spot to allow the next one to light up
+                    entry.target.classList.remove('mobile-hover');
+                }
+            });
+        }, {
+            // "Sweet Spot": The middle 50% of the screen height-wise
+            // -25% from top and -25% from bottom creates a central activation zone
+            rootMargin: '-25% 0px -25% 0px', 
+            threshold: 0.2 // Trigger as soon as 20% of the card enters this central zone
+        });
+
+        teamCards.forEach(card => {
+            teamObserver.observe(card);
+        });
+    }
+
 });

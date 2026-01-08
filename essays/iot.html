@@ -459,7 +459,8 @@
                 location, daily habits, health data or home security details, they become attractive targets for
                 cybercriminals. If the data is not protected properly, hackers can access sensitive information, break
                 into networks or even control connected devices. Privacy is another major issue. Many users do not
-                realize how much of their personal data is stored and shared by IoT devices.</p>
+                realize how much of their personal data is stored and shared by IoT devices.
+            </p>
 
             <p class="reveal-text">The development of the Internet of Things has brought major transformations to daily
                 life by enhancing convenience, improving efficiency, and strengthening connectivity in ways that were
@@ -500,6 +501,27 @@
             });
 
             document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
+        });
+    </script>
+    <script>
+        // Back Button Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const user = urlParams.get('user');
+            const from = urlParams.get('from');
+
+            const backBtn = document.querySelector('.btn-back');
+            if (backBtn) {
+                if (user) {
+                    backBtn.href = `../profiles/${user}.html`;
+                    const span = backBtn.querySelector('span');
+                    if (span) span.textContent = 'Back to Portfolio';
+                } else if (from === 'profile') {
+                    backBtn.href = '../profile.html';
+                    const span = backBtn.querySelector('span');
+                    if (span) span.textContent = 'Back to Portfolio';
+                }
+            }
         });
     </script>
 </body>
