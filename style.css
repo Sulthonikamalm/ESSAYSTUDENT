@@ -852,6 +852,16 @@ img {
     position: relative;
 }
 
+/* Highlight "Course Lecturer" */
+.lecturer-content .section-label {
+    color: white;
+    background: var(--accent); /* Red highlight */
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
 .lecturer-name {
     font-family: var(--font-heading);
     font-size: 3.2rem;
@@ -1269,9 +1279,7 @@ img {
         padding: 0 24px;
     }
     
-    .nav-menu {
-        display: none;
-    }
+    /* .nav-menu display is handled in the drawer section below */
     
     .nav-cta {
         display: none;
@@ -1414,6 +1422,14 @@ img {
         font-size: 0.7rem;
     }
     
+    .lecturer-content .section-label {
+        color: white;
+        background: var(--accent);
+        padding: 4px 12px;
+        border-radius: 4px;
+        margin-bottom: 12px; /* Adjust spacing as needed */
+    }
+
     .lecturer-role {
         font-size: 0.9rem;
     }
@@ -1555,6 +1571,8 @@ img {
     }
 
     /* Mobile Menu Drawer */
+    /* Removing the display: none causing the issue 
+       and ensuring flex behavior for the drawer */
     .nav-menu {
         position: absolute;
         top: 0;
@@ -1562,9 +1580,11 @@ img {
         width: 100%;
         height: 100vh;
         background: white; /* Keep white menu background */
+        display: flex; /* EXPLICITLY set to flex to override any hiding */
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
         gap: 30px;
         /* Fix White Gap: Move it further up so 15px top offset doesn't show it */
         transform: translateY(-120%); 
